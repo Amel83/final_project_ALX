@@ -1,39 +1,65 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+    margin-left: 0;
+    padding: 0 px;
+    background-color: #f2f2f2;
 }
 
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+}
 h1 {
     text-align: center;
+    color: #333;
+    
 }
 
-form {
+form-group {
     margin-bottom: 20px;
-    text-align: center;
+
 }
 
 label {
     display: block;
     margin-bottom: 5px;
+    color: #333;
 }
 
 input[type="text"],
 input[type="date"],
 button {
-    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button{
+    background-color: #6b2323;
+    color: #fff;
+    cursor: pointer;
 }
 
-ul {
+
+button:hover {
+    background-color: #4e1515;
+}
+
+.named-days {
     list-style-type: none;
     padding: 0;
 }
 
-li {
-    background-color: #fff;
+.named-days li {
+    background-color: #f9f9f9;
     padding: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

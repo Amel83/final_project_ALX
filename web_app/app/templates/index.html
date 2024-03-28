@@ -6,19 +6,37 @@
     <title>Named Days</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <h1>Named Days</h1>
-    <form action="{{ url_for('add_named_day') }}" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required>
-        <button type="submit">Add Named Day</button>
-    </form>
-    <ul>
-        {% for named_day in named_days %}
-            <li>{{ named_day.name }} - {{ named_day.date }}</li>
-        {% endfor %}
-    </ul>
-</body>
+    <body>
+        <div class="container">
+            <h1>Named Days</h1>
+            <form action="{{ url_for('add_named_day') }}" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Date:</label>
+                    <textarea id="description" name="description" rows="4" cols="50"></textarea>
+                </div>
+                <button type="submit">Add Named Day</button>
+            </form>
+            <ul class="named-days">
+                {% for named_day in named_days %}
+                    <li>
+                        <span>{{ named_day.name }} - {{ named_day.date }}</span>
+                            {% if named_day.description %}
+                            <p>{{ named_day.description }}</p>
+                        {% endif %}
+                        <form action="{{ url_for('delete_named_day', named_day_id=named_day.id) }}" method="POST" class="delete-form">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
 </html>

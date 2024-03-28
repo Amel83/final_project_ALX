@@ -17,3 +17,9 @@ def add_named_day():
     db.session.add(new_named_day)
     db.session.commit()
     return redirect(url_for('index'))
+@app.route('/delete_named_day/<int:named_day_id>', methods=['POST'])
+def delete_named_day(named_day_id):
+    named_day = NamedDay.query.get_or_404(named_day_id)
+    db.session.delete(named_day)
+    db.session.commit()
+    return redirect(url_for('index'))

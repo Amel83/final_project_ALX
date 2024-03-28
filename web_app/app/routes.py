@@ -10,13 +10,17 @@ def index():
 
 @app.route('/add_named_day', methods=['POST'])
 def add_named_day():
+    print(request.form)  # Print form data
     name = request.form['name']
     date_str = request.form['date']
     date_obj = date.fromisoformat(date_str)
-    new_named_day = NamedDay(name=name, date=date_obj)
+    description = request.form['description']
+    rating = int(request.form['rating']) 
+    new_named_day = NamedDay(name=name, date=date_obj, description=description, rating=rating)
     db.session.add(new_named_day)
     db.session.commit()
     return redirect(url_for('index'))
+
 @app.route('/delete_named_day/<int:named_day_id>', methods=['POST'])
 def delete_named_day(named_day_id):
     named_day = NamedDay.query.get_or_404(named_day_id)

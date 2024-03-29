@@ -1,0 +1,41 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Calendar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Holiday Calendar</h1>
+    
+
+
+    <form action="{{ url_for('add_holiday') }}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <button type="submit">Add Holiday</button>
+    </form>
+    <div id="calendar">
+        {% for holiday in holidays %}
+        <div class="holiday">
+            <h4>{{ holiday[1] }}</h4>
+            <p>Date: {{ holiday[2] }}</p>
+            <p>Description: {{ holiday[3] }}</p>
+            <form action="{{ url_for('edit_holiday', id=holiday[0]) }}" method="get" style="display: inline;">
+                <button type="submit">Edit</button>
+            </form>
+            <!-- Delete button -->
+            <form action="{{ url_for('delete_holiday', id=holiday[0]) }}" method="post" style="display: inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this holiday?')">Delete</button>
+            </form>           
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

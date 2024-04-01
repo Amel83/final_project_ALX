@@ -15,7 +15,7 @@ db = mysql.connector.connect(
 )
 
 cursor = db.cursor()
-PER_PAGE = 5 
+PER_PAGE = 8
 def get_holidays(offset):
     cursor.execute("SELECT * FROM holidays LIMIT %s OFFSET %s", (PER_PAGE, offset))
     return cursor.fetchall()

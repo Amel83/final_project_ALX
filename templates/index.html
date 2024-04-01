@@ -20,25 +20,7 @@
         <input id="name" type="text" name="location" required>
         <button type="submit">Add Holiday</button>
     </form>
-    <div id="tooltip" class="tooltip"></div>
-
-    <div class="calendar">
-        <div class="calendar-day">Sun</div>
-        <div class="calendar-day">Mon</div>
-        <div class="calendar-day">Tue</div>
-        <div class="calendar-day">Wed</div>
-        <div class="calendar-day">Thu</div>
-        <div class="calendar-day">Fri</div>
-        <div class="calendar-day">Sat</div>
-        {% for day in range(1, 32) %}
-            {% set date_str = "%04d-%02d-%02d" % (current_date.year, current_date.month, day) %}
-            {% if date_str in marked_dates %}
-                <div class="calendar-day marked" data-date="{{ date_str }}" data-holiday="{{ marked_dates[date_str] }}">{{ day }}</div>
-            {% else %}
-                <div class="calendar-day">{{ day }}</div>
-            {% endif %}
-        {% endfor %}
-    </div> 
+ 
     <div id="calendar" class="calendar">
         {% for holiday in holidays %}
         <div class="holiday">
@@ -46,7 +28,7 @@
             <p>Date: {{ holiday[1] }}</p>
             <p>Description: {{ holiday[3] }}</p>
             <p>Location: {{ holiday[5] }}</p>
-            <p>Likes: {{ holiday[0] }}</p>
+            
 
         
             <form action="{{ url_for('like_holiday', holiday_id=holiday[0]) }}" method="post">
@@ -86,28 +68,6 @@
             {% endif %}
         </ul>
         {% endif %}
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const markedDates = document.querySelectorAll('.marked');
-            const tooltip = document.getElementById('tooltip');
-    
-            markedDates.forEach(function(date) {
-                date.addEventListener('mouseenter', function() {
-                    const holidayName = date.dataset.holiday;
-                    const dateRect = date.getBoundingClientRect();
-                    tooltip.textContent = holidayName;
-                    tooltip.style.top = (dateRect.top + window.scrollY - tooltip.offsetHeight - 5) + 'px';
-                    tooltip.style.left = (dateRect.left + window.scrollX + (date.offsetWidth - tooltip.offsetWidth) / 2) + 'px';
-                    tooltip.style.display = 'block';
-                });
-    
-                date.addEventListener('mouseleave', function() {
-                    tooltip.style.display = 'none';
-                });
-            });
-        });
-    </script>
-    
+    </div>   
 </body>
 </html>

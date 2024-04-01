@@ -9,11 +9,13 @@
     <h1>Edit Holiday Entry</h1>
     <form method="POST">
         <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" value="{{ holiday[1] }}"><br>
+        <input type="text" id="name" name="name" value="{{ holiday[2] }}"><br>
         <label for="date">Date:</label><br>
-        <input type="date" id="date" name="date" value="{{ holiday[2] }}"><br>
+        <input type="date" id="date" name="date" value="{{ holiday[1] }}"><br>
         <label for="description">Description:</label><br>
         <textarea id="description" name="description" rows="4" cols="50">{{ holiday[3] }}</textarea><br>
+        <label for="location">Location:</label><br>
+        <input type="text" id="Location" name="name" value="{{ holiday[5] }}"><br>
         <input type="submit" value="Update">
     </form>
 </body>

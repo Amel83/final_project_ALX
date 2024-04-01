@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a secret key
+
 
 db = mysql.connector.connect(
     host="localhost",
@@ -24,12 +24,6 @@ def count_holidays():
     cursor.execute("SELECT COUNT(*) FROM holidays")
     return cursor.fetchone()[0]
 
-def get_marked_dates():
-    cursor.execute("SELECT date, name FROM holidays")
-    marked_dates = cursor.fetchall()
-    return {datetime.strftime(date, "%Y-%m-%d"): name for date, name in marked_dates}
-
-
 @app.route('/')
 def index():
     
@@ -37,17 +31,15 @@ def index():
     total_holidays = count_holidays()
     offset = (page - 1) * PER_PAGE
     holidays = get_holidays(offset)
-    marked_dates = get_marked_dates()
-    current_date = datetime.now() 
-    return render_template('index.html', holidays=holidays, total_holidays=total_holidays, per_page=PER_PAGE, marked_dates=marked_dates, current_date=current_date, page=page)
+    return render_template('index.html', holidays=holidays, total_holidays=total_holidays, per_page=PER_PAGE, page=page)
 @app.route('/add_holiday', methods=['POST'])
 def add_holiday():
     name = request.form['name']
     date = request.form['date']
     description = request.form['description']
-       
-    cursor.execute("INSERT INTO holidays (name, date, description) VALUES (%s, %s, %s)",
-                   (name, date, description))
+    location = request.form['location']
+    cursor.execute("INSERT INTO holidays (name, date, description, location) VALUES (%s, %s, %s, %s)",
+                   (name, date, description, location))
     db.commit()
     
     return redirect(url_for('index'))
@@ -58,10 +50,10 @@ def edit_holiday(id):
         name = request.form['name']
         date = request.form['date']
         description = request.form['description']
-        
+        location = request.form['location']
         # Update the holiday entry in the database
-        cursor.execute("UPDATE holidays SET name = %s, date = %s, description = %s WHERE id = %s",
-                       (name, date, description, id))
+        cursor.execute("UPDATE holidays SET name = %s, date = %s, description = %s, location = %s, WHERE id = %s",
+                       (name, date, description, location, id))
         db.commit()
         
         return redirect(url_for('index'))
@@ -81,9 +73,19 @@ def delete_holiday(id):
 
 @app.route('/like/<int:holiday_id>', methods=['POST'])
 def like_holiday(holiday_id):
-    cursor.execute("UPDATE holidays SET likes = likes + 1 WHERE id = %s", (holiday_id,))
+    cursor.execute("SELECT likes FROM holidays WHERE id = %s", (holiday_id,))
+    likes = cursor.fetchone()[0]  # Fetch the current likes count
+
+    if likes is None:  # If likes is NULL, set it to 1
+        likes = 1
+    else:  # If likes is not NULL, increment it by 1
+        likes += 1
+
+    cursor.execute("UPDATE holidays SET likes = %s WHERE id = %s", (likes, holiday_id))
     db.commit()
+
     return redirect(url_for('index'))
+
 
 @app.route('/share/<int:holiday_id>', methods=['POST'])
 def share_holiday(holiday_id):

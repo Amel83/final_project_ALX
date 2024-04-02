@@ -87,3 +87,80 @@ h1 {
         border-radius: 5px;
         display: none;
     }
+
+    .nav-links {
+        text-align: right;
+    }
+  
+    /* static/styles.css */
+
+/* Container styling for signup page */
+.signup-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Container styling for signin page */
+.signin-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Input field styling */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #71767c;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4d5053;
+}
+
+/* Sign-up and Sign-in link styling */
+.signup-link,
+.signin-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.signup-link a,
+.signin-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-link a:hover,
+.signin-link a:hover {
+    text-decoration: underline;
+}

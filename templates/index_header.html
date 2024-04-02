@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Holiday Calendar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <div class="nav-links">
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+            <a href="{{ url_for('signin') }}">Sign In</a>
+    </div>
 </head>
 <body>
     <h1>Holiday Calendar</h1>
+
     <form action="{{ url_for('add_holiday') }}" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>

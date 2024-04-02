@@ -7,6 +7,20 @@ db = mysql.connector.connect(
     database="holiday_calendar"
 )
 PER_PAGE = 8
+
+class User:
+    @staticmethod
+    def create_user(username, password):
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        db.commit()
+
+    @staticmethod
+    def get_user(username):
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        return cursor.fetchone()
+    
 class Holiday:
     @staticmethod
     def get_holidays(offset):

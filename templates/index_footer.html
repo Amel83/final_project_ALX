@@ -1,0 +1,25 @@
+<!-- templates/index_footer.html -->
+</div>
+<div id="pagination">
+    {% if total_holidays > per_page %}
+    <ul class="pagination">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('index', page=page-1) }}">Previous</a>
+        </li>
+        {% endif %}
+        {% for page_num in range(1, (total_holidays // per_page) + 2) %}
+        <li class="page-item {% if page_num == page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('index', page=page_num) }}">{{ page_num }}</a>
+        </li>
+        {% endfor %}
+        {% if page < (total_holidays // per_page) + 1 %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('index', page=page+1) }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>   
+</body>
+</html>

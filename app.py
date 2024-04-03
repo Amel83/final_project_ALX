@@ -97,5 +97,14 @@ def signin():
             return render_template('signin.html', error='Invalid username or password')
     return render_template('signin.html')
 
+# app.py
+
+@app.route('/signout')
+def signout():
+    # Remove user from session
+    session.pop('username', None)
+    # Redirect to the index page or any other desired page
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True)

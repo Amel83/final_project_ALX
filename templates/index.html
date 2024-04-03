@@ -8,6 +8,7 @@
         <p>Date: {{ holiday[1] }}</p>
         <p>Description: {{ holiday[3] }}</p>
         <p>Location: {{ holiday[5] }}</p>
+        <p>Likes: {{ holiday[4] }}</p>
 
         <form action="{{ url_for('like_holiday', holiday_id=holiday[0]) }}" method="post">
             <button type="submit">Like</button>

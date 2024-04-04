@@ -45,7 +45,6 @@ def delete_holiday(id):
 @app.route('/like/<int:holiday_id>', methods=['POST'])
 def like_holiday(holiday_id):
     if 'username' not in session:
-        # Redirect to login page if user is not logged in
         return redirect(url_for('signin'))
 
     username = session['username']
@@ -67,11 +66,6 @@ def like_holiday(holiday_id):
     cursor.execute("UPDATE holidays SET likes = likes + 1 WHERE id = %s", (holiday_id,))
     db.commit()
 
-    return redirect(url_for('index'))
-
-@app.route('/share/<int:holiday_id>', methods=['POST'])
-def share_holiday(holiday_id):
-    # Code to share the holiday (e.g., send an email, post on social media, etc.)
     return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -97,13 +91,10 @@ def signin():
             return render_template('signin.html', error='Invalid username or password')
     return render_template('signin.html')
 
-# app.py
-
 @app.route('/signout')
 def signout():
-    # Remove user from session
+   
     session.pop('username', None)
-    # Redirect to the index page or any other desired page
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

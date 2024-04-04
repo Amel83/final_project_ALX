@@ -35,10 +35,10 @@ class Holiday:
         return cursor.fetchone()[0]
 
     @staticmethod
-    def add_holiday(name, date, description, location):
+    def add_holiday(name, date, description, location, user_id):
         cursor = db.cursor()
-        cursor.execute("INSERT INTO holidays (name, date, description, location, likes) VALUES (%s, %s, %s, %s, %s)",
-                    (name, date, description, location, 0))  # Explicitly set likes count to 0
+        cursor.execute("INSERT INTO holidays (name, date, description, location, likes, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
+                    (name, date, description, location, 0, user_id))  # Set likes to 0 by default
         db.commit()
 
     @staticmethod
@@ -51,6 +51,7 @@ class Holiday:
     @staticmethod
     def delete_holiday(id):
         cursor = db.cursor()
+        cursor.execute("DELETE FROM likes WHERE holiday_id = %s", (id,))
         cursor.execute("DELETE FROM holidays WHERE id = %s", (id,))
         db.commit()
 

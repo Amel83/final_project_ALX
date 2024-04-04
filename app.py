@@ -17,15 +17,35 @@ def index():
 
 @app.route('/add_holiday', methods=['POST'])
 def add_holiday():
+    if 'username' not in session:
+        return redirect(url_for('signin'))
     name = request.form['name']
     date = request.form['date']
     description = request.form['description']
     location = request.form['location']
-    Holiday.add_holiday(name, date, description, location)
+
+    username = session['username']
+    user = User.get_user(username)
+    user_id = user['id']
+
+    Holiday.add_holiday(name, date, description, location, user_id)
     return redirect(url_for('index'))
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_holiday(id):
+    if 'username' not in session:
+        return redirect(url_for('signin'))
+
+    # Get the logged-in user's ID
+    username = session['username']
+    user = User.get_user(username)
+    user_id = user['id']
+
+    # Check if the holiday belongs to the logged-in user
+    holiday = Holiday.get_holiday_by_id(id)
+    if holiday[7] != user_id:
+        # If the holiday doesn't belong to the logged-in user, redirect
+        return redirect(url_for('index'))
     if request.method == 'POST':
         name = request.form['name']
         date = request.form['date']
@@ -39,6 +59,19 @@ def edit_holiday(id):
 
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete_holiday(id):
+    if 'username' not in session:
+        return redirect(url_for('signin'))
+
+    # Get the logged-in user's ID
+    username = session['username']
+    user = User.get_user(username)
+    user_id = user['id']
+
+    # Check if the holiday belongs to the logged-in user
+    holiday = Holiday.get_holiday_by_id(id)
+    if holiday[7] != user_id:
+        # If the holiday doesn't belong to the logged-in user, redirect
+        return redirect(url_for('index'))
     Holiday.delete_holiday(id)
     return redirect(url_for('index'))
 

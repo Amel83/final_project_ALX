@@ -133,15 +133,15 @@ h1 {
     margin-bottom: 20px;
 }
 
-.form-group {
+.main {
     margin-bottom: 20px;
 }
 
-label {
+.lab {
     font-weight: bold;
 }
 
-input {
+.in {
     width: 50%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -153,7 +153,7 @@ input {
     justify-content: center;
 }
 
-button {
+.but {
     width: 100%;
     padding: 10px;
     border: 20;
@@ -163,6 +163,51 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.but:hover {
     background-color: #a6afaf; 
+}
+
+.edit{ 
+    margin-bottom: 20px;
+}
+
+.please {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.la  {
+    font-weight: bold;
+}
+
+.inp {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.bu {
+    width: 100%;
+    padding: 10px;
+    border: 20;
+    border-radius: 5px;
+    background-color: #636568; 
+    color: #fff;
+    cursor: pointer;
+}
+
+.bu:hover {
+    background-color: #a6afaf; 
+}
+
+edit-container {
+    font-family: Arial, sans-serif;
+    margin-top: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #cacac9, #20202036);; 
 }

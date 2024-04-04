@@ -64,7 +64,7 @@ def like_holiday(holiday_id):
     # Increment likes count in the holidays table
     cursor.execute("UPDATE holidays SET likes = likes + 1 WHERE id = %s", (holiday_id,))
     db.commit()
-
+    Holiday.like_holiday(holiday_id) 
     return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])

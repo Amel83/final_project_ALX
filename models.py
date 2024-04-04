@@ -25,7 +25,7 @@ class Holiday:
     @staticmethod
     def get_holidays(offset):
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM holidays LIMIT %s OFFSET %s", (PER_PAGE, offset))
+        cursor.execute("SELECT * FROM holidays ORDER BY likes DESC LIMIT %s OFFSET %s", (PER_PAGE, offset))
         return cursor.fetchall()
 
     @staticmethod
@@ -37,8 +37,8 @@ class Holiday:
     @staticmethod
     def add_holiday(name, date, description, location):
         cursor = db.cursor()
-        cursor.execute("INSERT INTO holidays (name, date, description, location) VALUES (%s, %s, %s, %s)",
-                       (name, date, description, location))
+        cursor.execute("INSERT INTO holidays (name, date, description, location, likes) VALUES (%s, %s, %s, %s, %s)",
+                    (name, date, description, location, 0))  # Explicitly set likes count to 0
         db.commit()
 
     @staticmethod

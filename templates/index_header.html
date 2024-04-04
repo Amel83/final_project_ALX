@@ -14,20 +14,27 @@
     </div>
 </head>
 <body>
+    <div class="main-container"></div>
     <h1>Holiday Calendar</h1>
-    
-            <form action="{{ url_for('add_holiday') }}" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-                <label for="location">location:</label>
-                <input id="name" type="text" name="location" required>
-                 
-                <button type="submit">Add Holiday</button>
-            </div>
+            <form action="{{ url_for('add_holiday') }}" class="holiday-main-form" method="post">
+                <div class="main">
+                    <label class="lab" for="name">Name:</label>
+                    <input class="in" type="text" id="name" name="name" required>
+                </div>
+                <div class="main">
+                    <label class="lab" for="date">Date:</label>
+                    <input class="in" type="date" id="date" name="date" required>
+                </div>
+                <div class="main">
+                    <label class="lab" for="description">Description:</label>
+                    <textarea class="in" id="description" name="description" required></textarea>
+                </div>
+                <div class="main">
+                    <label class="lab" for="location">location:</label>
+                    <input class="in" id="name" type="text" name="location" required>
+                </div> 
+                <button class="but" type="submit">Add Holiday</button>
             </form>
-    
+        </div>  
     <div id="calendar" class="calendar">
+     

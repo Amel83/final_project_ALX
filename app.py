@@ -49,8 +49,7 @@ def like_holiday(holiday_id):
 
     username = session['username']
     user = User.get_user(username)
-    user_id = user['id']  # Assuming 'id' is the primary key of the users table
-
+    user_id = user['id']  
     # Check if the user has already liked the holiday
     cursor = db.cursor()
     cursor.execute("SELECT * FROM likes WHERE user_id = %s AND holiday_id = %s", (user_id, holiday_id))
@@ -98,4 +97,4 @@ def signout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

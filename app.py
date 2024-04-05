@@ -12,6 +12,9 @@ app.config['SESSION_TYPE'] = 'filesystem'  # or any other session type you prefe
 
 PER_PAGE = 8
 
+"""
+Route for the homepage, displaying a list of holidays.
+"""
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
@@ -20,6 +23,9 @@ def index():
     holidays = Holiday.get_holidays(offset)
     return render_template('index.html', holidays=holidays, total_holidays=total_holidays, per_page=PER_PAGE, page=page)
 
+"""
+Route to add a new holiday.
+"""
 @app.route('/add_holiday', methods=['POST'])
 def add_holiday():
     if 'username' not in session:
@@ -36,6 +42,9 @@ def add_holiday():
     Holiday.add_holiday(name, date, description, location, user_id)
     return redirect(url_for('index'))
 
+"""
+Route to edit an existing holiday.
+"""
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_holiday(id):
     if 'username' not in session:
@@ -63,6 +72,9 @@ def edit_holiday(id):
         holiday = Holiday.get_holiday_by_id(id)
         return render_template('edit.html', holiday=holiday)
 
+"""
+Route to delete a holiday.
+"""
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete_holiday(id):
     if 'username' not in session:
@@ -80,6 +92,9 @@ def delete_holiday(id):
     Holiday.delete_holiday(id)
     return redirect(url_for('index'))
 
+"""
+Route to like a holiday.
+"""
 @app.route('/like/<int:holiday_id>', methods=['POST'])
 def like_holiday(holiday_id):
     if 'username' not in session:
@@ -104,6 +119,9 @@ def like_holiday(holiday_id):
     Holiday.like_holiday(holiday_id) 
     return redirect(url_for('index'))
 
+"""
+Route for user signup.
+"""
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -114,6 +132,9 @@ def signup():
         return redirect(url_for('index'))
     return render_template('signup.html')
 
+"""
+Route for user signin.
+"""
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
@@ -134,6 +155,14 @@ def signout():
    
     session.pop('username', None)
     return redirect(url_for('index'))
+
+"""
+Adding an about page
+"""
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=False)

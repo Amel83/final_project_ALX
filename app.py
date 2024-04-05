@@ -2,9 +2,14 @@ import os
 from flask import Flask, session, render_template, request, redirect, url_for
 from models import Holiday, User, db
 from datetime import datetime
+from flask import flash
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'filesystem'  # or any other session type you prefer
+
 PER_PAGE = 8
 
 @app.route('/')
@@ -44,7 +49,7 @@ def edit_holiday(id):
     # Check if the holiday belongs to the logged-in user
     holiday = Holiday.get_holiday_by_id(id)
     if holiday[7] != user_id:
-        # If the holiday doesn't belong to the logged-in user, redirect
+        flash("You can only edit your own holiday posts.")
         return redirect(url_for('index'))
     if request.method == 'POST':
         name = request.form['name']
@@ -52,6 +57,7 @@ def edit_holiday(id):
         description = request.form['description']
         location = request.form['location']
         Holiday.edit_holiday(id, name, date, description, location)
+        flash("holiday post edited", "info")
         return redirect(url_for('index'))
     else:
         holiday = Holiday.get_holiday_by_id(id)
@@ -67,10 +73,9 @@ def delete_holiday(id):
     user = User.get_user(username)
     user_id = user['id']
 
-    # Check if the holiday belongs to the logged-in user
     holiday = Holiday.get_holiday_by_id(id)
     if holiday[7] != user_id:
-        # If the holiday doesn't belong to the logged-in user, redirect
+        flash("You can only delete your own holiday posts.")
         return redirect(url_for('index'))
     Holiday.delete_holiday(id)
     return redirect(url_for('index'))
@@ -78,6 +83,7 @@ def delete_holiday(id):
 @app.route('/like/<int:holiday_id>', methods=['POST'])
 def like_holiday(holiday_id):
     if 'username' not in session:
+        flash("You need to sign in to like a holiday.")
         return redirect(url_for('signin'))
 
     username = session['username']
@@ -87,14 +93,12 @@ def like_holiday(holiday_id):
     cursor = db.cursor()
     cursor.execute("SELECT * FROM likes WHERE user_id = %s AND holiday_id = %s", (user_id, holiday_id))
     if cursor.fetchone():
-        # User has already liked this holiday
+        flash("You have already liked this holiday.")
         return redirect(url_for('index'))
 
-    # If the user hasn't liked the holiday yet, record the like
     cursor.execute("INSERT INTO likes (user_id, holiday_id) VALUES (%s, %s)", (user_id, holiday_id))
     db.commit()
     
-    # Increment likes count in the holidays table
     cursor.execute("UPDATE holidays SET likes = likes + 1 WHERE id = %s", (holiday_id,))
     db.commit()
     Holiday.like_holiday(holiday_id) 
@@ -106,6 +110,7 @@ def signup():
         username = request.form['username']
         password = request.form['password']
         User.create_user(username, password)
+        flash("created account sucessfully", "info")
         return redirect(url_for('index'))
     return render_template('signup.html')
 
@@ -117,6 +122,7 @@ def signin():
         user = User.get_user(username)
         if user and user['password'] == password:
             session['username'] = username
+            flash("logeged in sucessful", "info")
             return redirect(url_for('index'))
         else:
             # Handle invalid login
